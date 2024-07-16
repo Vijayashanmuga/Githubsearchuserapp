@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github User and Repositories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        button {
+            width: 100px;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            outline: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #result h2 {
+            margin-top: 0;
+        }
+        #repositories {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #repositories h2 {
+            margin-top: 0;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+        ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Github Search User App</h1>
+        <div>
+            <input type="text" id="text">
+            <button onclick="getUserAndRepos()">Search User</button>
+        </div>
+        <div id="result"></div>
+        <div id="repositories"></div>
+    </div>
+
+    <script>
+        function getUserAndRepos() {
+            var originalName = document.getElementById("text").value.trim();
+            if (originalName === "") {
+                alert("Please enter a GitHub username.");
+                return;
+            }
+            
+            // Fetch user data
+            fetch(`https://api.github.com/users/${originalName}`)
+                .then(response => response.json())
+                .then(userData => {
+                    console.log(userData);
+                    // Display user information
+                    var userHtml = `
+                        <h2>${userData.login}</h2>
+                        <p>ID: ${userData.id}</p>
+                        <p>URL: <a href="${userData.html_url}" target="_blank">${userData.html_url}</a></p>
+                        <p>Followers: ${userData.followers}</p>
+                    `;
+                    document.getElementById("result").innerHTML = userHtml;
+                    
+                    // Fetch repositories
+                    fetch(`https://api.github.com/users/${originalName}/repos`)
+                        .then(response => response.json())
+                        .then(reposData => {
+                            console.log(reposData);
+                            // Display repositories
+                            var reposHtml = "<h2>Repositories:</h2><ul>";
+                            reposData.forEach(repo => {
+                                reposHtml += `<li><a href="${repo.html_url}" target="_blank">${repo.name}</a></li>`;
+                            });
+                            reposHtml += "</ul>";
+                            document.getElementById("repositories").innerHTML = reposHtml;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching repositories:', error);
+                            document.getElementById("repositories").innerHTML = "Repositories not found.";
+                        });
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    document.getElementById("result").innerHTML = "User not found.";
+                    document.getElementById("repositories").innerHTML = ""; // Clear repositories if user not found
+                });
+        }
+    </script>
+</body>
+</html>
