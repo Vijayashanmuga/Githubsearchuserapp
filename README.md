@@ -30,4 +30,11 @@ GitHubSearchApp is a web application that allows users to search for GitHub repo
 Enter a keyword in the search bar to find repositories or users.
 Use the filters to narrow down the search results.
 Click on a repository or user to view detailed information.
+![image](https://github.com/user-attachments/assets/4db7124f-453f-4bae-ba57-57ebe724b16a)
+![image](https://github.com/user-attachments/assets/b10fd5f4-f83e-4583-ab04-63c761e7573e)
+![image](https://github.com/user-attachments/assets/c4375f6c-249a-42a8-b3de-ce6755156f1d)
+![image](https://github.com/user-attachments/assets/928d7899-97b6-4137-bc5e-5a6097c72bf8)
+
+
+
    
