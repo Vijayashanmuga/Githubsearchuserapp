@@ -15,7 +15,6 @@ GitHubSearchApp is a web application that allows users to search for GitHub repo
 ## Technologies Used
 
 - **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Node.js, Express.js
 - **API**: GitHub API
 - **Version Control**: Git, GitHub
 
